@@ -24,7 +24,7 @@ def set_driver():
         options.add_experimental_option("excludeSwitches", ["enable-automation"])
         options.add_experimental_option('useAutomationExtension', False)
         # initialize driver
-        driver = webdriver.Chrome(os.path.join(os.getcwd(), "chromedriver.exe"), chrome_options=options)
+        driver = webdriver.Chrome(os.path.join(os.getcwd(), "chromedriver.exe"), options=options)
     return driver
 
 
@@ -52,13 +52,19 @@ def get_text(full_html):
 
 def handle(request):
     global driver
+    print("Setting up selenium")
     driver = set_driver()
+    print("Fetching from url")
     driver.get("https://www.waverley.nsw.gov.au/top_link_pages/news_and_media/council_news/news/a_message_from_the_mayor_this_festive_season")
     page_html = driver.page_source
+    driver.close()
     tree = etree.HTML(page_html)
     text= get_text(tree)
+    print("Fetching tags")
     tags = classifier.tag(text)
     print(tags)
     return tags
 
-handle(None)
+
+if __name__ == '__main__':
+    handle(None)
