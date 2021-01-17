@@ -1,0 +1,5 @@
+nltk
+ner
+selenium
+lxml
+unidecode
