@@ -1,0 +1,5 @@
+call gcloud auth activate-service-account --key-file=cloud-functions-deployment.json
+
+call gcloud builds submit --tag "gcr.io/newsfeed-stage/selenium-app"
+
+call gcloud run deploy selenium-app --image "gcr.io/newsfeed-stage/selenium-app" --platform managed --region=australia-southeast1 --allow-unauthenticated --memory 1Gi
